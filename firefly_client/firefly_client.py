@@ -26,71 +26,12 @@ class FireflyClient(WebSocketClient):
     """
     For Firefly client to build interface to remotely communicate to the Firefly viewer.
 
-    methods
-    -------
-    add_listener(callback, name)
-        Add listener to events on Firefly client.
-    remove_listener(callback, name)
-        Remove event name from callback listener.
-    launch_browser()
-        Launch a browsers with the Firefly Tools viewer and the channel set.
-    wait_for_events()
-        Wait over events from the server.
-    get_firefly_url(mode, channel)
-        Get URL to Firefly Tools viewer and the channel set.
-    stay_connected()
-        Keep WebSocket connected.
-    disconnect()
-        Disconnect the WebSocket.
-    upload_file(path, pre_load)
-        Upload a file to the Firefly Server.
-    upload_fits_data(stream)
-        Upload fits file like object to the Firefly server.
-    upload_text_data(stream)
-        Upload a text file like object to the Firefly server.
-    upload_data(stream, data_type)
-        Upload a file like object to the Firefly server
-    create_image_url(image_source)
-        Create image url or data uri.
-    dispatch_remote_action(channel, action_type, payload)
-        Dispatch the action to the server by sending 'GET' request.
-    dispatch_remote_action_by_post(channel, action_type, payload)
-        Dispatch the action to the server by sending 'POST' request.
-    show_fits(file_on_server, plot_id, **additional_params)
-        Show a fits image.
-    show_table(file_on_server, tbl_id, title, page_size, is_catalog)
-        Show a table.
-    show_xyplot(file_on_server, standalone, **chart_params)
-        Show a XY plot.
-    add_extension(ext_type, plot_id, title, tool_tip, extension_id, image_src)
-        Add extension to the plot.
-    set_zoom(plot_id, factor)
-        Zoom the image.
-    set_pan(plot_id, x, y, coord)
-        Relocate the center of the image.
-    set_stretch(plot_id, type, algorithm, **additional_params)
-        Change the stretch of the image (no band case).
-    overlay_region_layer(file_on_server, region_data, title, region_layer_id, plot_id)
-        Overlay a region layer on the image plot.
-    delete_region_layer(region_layer_id, plot_id)
-        Delete region layer from the image plot.
-    add_region_data(region_data, region_layer_id, title, plot_id)
-        Add region entries to the region layer.
-    remove_region_data(region_data, region_layer_id)
-        Remove region entries from the region layer.
-    add_mask(bit_number, image_number, plot_id, mask_id, color, title, file_on_server)
-        Add a mask layer to the image plot.
-    remove_mask(plot_id, mask_id)
-         Remove a mask layer from the image plot.
-
-    Attributes
+    Parameters
     ----------
-    STRETCH_TYPE_DICT, STRETCH_ALGORITHM_DICT : dict
-        Definition of stretch type and algorithm.
-    ACTION_DICT : dict
-        Definition of FIrefly action.
-    EXTENSION_TYPE : list of str
-        Type of plot where the extension is added to.
+    host : `str`
+        Firefly host.
+    channel : `str`
+        WebSocket channel id.
     """
 
     _fftools_cmd = '/firefly/sticky/CmdSrv'
@@ -133,15 +74,6 @@ class FireflyClient(WebSocketClient):
     # open websocket:  ws://<host>/firefly/sticky/firefly/events?channdleID=<channel id>
 
     def __init__(self, host=_my_localhost, channel=None):
-        """initialize a 'FireflyClient' object and build websocket.
-
-        Parameters
-        ----------
-        host : str
-            Firefly host.
-        channel : str
-            WebSocket channel id.
-        """
 
         if host.startswith('http://'):
             host = host[7:]
@@ -235,7 +167,7 @@ class FireflyClient(WebSocketClient):
         ----------
         callback : function
             The function to be called when a event happens on the Firefly client.
-        name : str, optional
+        name : `str`, optional
             The name of the events (the default is ALL, all events).
 
         """
@@ -253,7 +185,7 @@ class FireflyClient(WebSocketClient):
         ----------
         callback : function
             A previously set callback function.
-        name : str, optional
+        name : `str`, optional
             The name of the event to be removed from the callback listener
             (the default is ALL, all events).
 
@@ -287,12 +219,12 @@ class FireflyClient(WebSocketClient):
         -------------
         mode : {'full', 'minimal'}, optional
             Url mode (the default is 'minimal').
-        channel : str, optional
+        channel : `str`, optional
             A different channel string than the default.
 
         Returns
         -------
-        out : str
+        out : `str`
             url string.
         """
 
@@ -312,16 +244,16 @@ class FireflyClient(WebSocketClient):
 
         Parameters
         ----------
-        url : str, optional
+        url : `str`, optional
             An url overriding the default (the default is set as self.url_bw).
-        channel : str, optional
+        channel : `str`, optional
             A different channel than the default (the default is set as self.channel).
         force : bool, optional
             If the browser page is forced to be opened (the default is false).
 
         Returns
         -------
-        out : str
+        out : `str`
             The channel ID.
         """
 
@@ -350,7 +282,7 @@ class FireflyClient(WebSocketClient):
 
         Parameters
         ----------
-        path : str
+        path : `str`
             Path of uploaded file. It can be fits, region, and various types of table files.
         pre_load : bool
             This parameter is not used.
@@ -444,12 +376,12 @@ class FireflyClient(WebSocketClient):
 
         Parameters
         ----------
-        image_source : str
+        image_source : `str`
             An image path or image url.
 
         Returns
         -------
-         out : str
+         out : `str`
             Data URI or image url.
         """
 
@@ -471,9 +403,9 @@ class FireflyClient(WebSocketClient):
 
         Parameters
         ----------
-        channel : str
+        channel : `str`
             WebSocket channel id.
-        action_type : str
+        action_type : `str`
             Action type,  one of actions from FireflyClient's attribute,  ACTION_DICT.
         payload : dict
             Payload, the content varies among action types.
@@ -495,9 +427,9 @@ class FireflyClient(WebSocketClient):
 
         Parameters
         ----------
-        channel : str
+        channel : `str`
             Websocket channel id.
-        action_type : str
+        action_type : `str`
             Action type, one of actions from FireflyClient's attribute, ACTION_DICT.
         payload : dict
             Payload, the content varies among action types.
@@ -527,11 +459,11 @@ class FireflyClient(WebSocketClient):
 
         Parameters
         ----------
-        file_on_server : str, optional
+        file_on_server : `str`, optional
             The is the name of the file on the server.  If you use upload_file()
             then it is the return value of the method. Otherwise it is a file that
             Firefly has direct access to.
-        plot_id : str or list of str, optional
+        plot_id : `str` or list of str, optional
             The id you assign to the image plot. This is necessary to further control the plot.
 
         **additional_params : optional keyword arguments
@@ -544,7 +476,7 @@ class FireflyClient(WebSocketClient):
         ----------------
         MultiImageIdx : int, optional
             Display only a particular image extension from the file (zero-based index)
-        Title : str, optional
+        Title : `str`, optional
             Title to display with the image.
 
         Returns
@@ -572,13 +504,13 @@ class FireflyClient(WebSocketClient):
 
         Parameters
         ----------
-        file_on_server : str, optional
+        file_on_server : `str`, optional
             The name of the file on the server.  If you use upload_file()
             then it is the return value of the method. Otherwise it is a file that
             Firefly has direct access to.
-        tbl_id : str, optional
+        tbl_id : `str`, optional
             A table ID. It will be created automatically if not specified.
-        title : str, optional
+        title : `str`, optional
             Title associated with the table.
         page_size : int, optional
             The number of rows that are shown in the table page (the default is 100).
@@ -611,11 +543,11 @@ class FireflyClient(WebSocketClient):
 
         Parameters
         ----------
-        file_on_server : str, optional
+        file_on_server : `str`, optional
             The name of the file on the server.  If you use upload_file()
             then it is the return value of the method. Otherwise it is a file that
             Firefly has direct access to.
-        tbl_id : str, optional
+        tbl_id : `str`, optional
             A table ID. It will be created automatically if not specified.
         page_size : int, optional
             The number of rows to fetch.
@@ -641,7 +573,7 @@ class FireflyClient(WebSocketClient):
 
         Parameters
         ----------
-        tbl_id : str, required
+        tbl_id : `str`, required
             A table ID of the data to be plotted.
         standalone : bool, optional
             When true, the chart is always present in the chart area, 
@@ -651,31 +583,31 @@ class FireflyClient(WebSocketClient):
 
         Chart Parameters
         ----------------
-        xCol: str
+        xCol: `str`
             column or expression to use for x values, can contain multiple column names,
             ex. log(col) or (col1-col2)/col3.
-        xError: str
+        xError: `str`
             column or expression to use for x error, can contain multiple column names
-        yCol: str
+        yCol: `str`
             column or expression to use for y values, can contain multiple column names,
             ex. sin(col) or (col1-col2)/col3.
-        yError: str
+        yError: `str`
             column or expression to use for x error, can contain multiple column names
         xyRatio : numeric types
             Aspect ratio (must be between 1 and 10).
         stretch : {'fit', 'fill'}
             Stretch method.
-        xLabel : str
+        xLabel : `str`
             label to use with x axis.
-        yLabel : str
+        yLabel : `str`
             label to use with y axis.
-        xUnit : str
+        xUnit : `str`
             unit for x axis.
-        yUnit : str
+        yUnit : `str`
             unit for y axis.
-        xOptions : str
+        xOptions : `str`
             Comma separated list of x axis options: grid,flip,log.
-        yOptions : str
+        yOptions : `str`
             Comma separated list of y axis options: grid,flip,log.
 
         Notes
@@ -728,16 +660,16 @@ class FireflyClient(WebSocketClient):
         ext_type : {'AREA_SELECT', 'LINE_SELECT', or 'POINT' or any firefly action}
             Extension type. It can be one of the values in the list,
             or it will be reset to be 'NONE'.
-        plot_id : str, optional
+        plot_id : `str`, optional
             Plot ID of the plot which the extension is added to, if not specified, then this request
             applied to all plots in the same group of the active plot.
-        title : str, optional
+        title : `str`, optional
             The title for the extension.
-        tool_tip : str, optional
+        tool_tip : `str`, optional
             Tooltip for the extension.
-        extension_id : str, optional
+        extension_id : `str`, optional
             Extension ID. It will be created automatically if not specifed.
-        image_src : str, optional
+        image_src : `str`, optional
             Image source of an icon to be displayed on the toolbar instead of the title.
             Image source could be an image path or an image url.
 
@@ -775,7 +707,7 @@ class FireflyClient(WebSocketClient):
 
         Parameters
         ----------
-        plot_id : str or a list of str
+        plot_id : `str` or a list of str
             ID of the plot to be zoomed. If plot_id is a list or tuple, then each plot in the list
             or the tuple is zoomed in order.
         factor : numeric type
@@ -803,7 +735,7 @@ class FireflyClient(WebSocketClient):
 
         Parameters
         ----------
-        plot_id : str or a list of str
+        plot_id : `str` or a list of str
             ID of the plot to be panned. If plot_id is a list or tuple, then each plot in the list
             or the tuple is panned in order.
         x, y : numeric type
@@ -832,7 +764,7 @@ class FireflyClient(WebSocketClient):
 
         Parameters
         ----------
-        plot_id : str or a list of str
+        plot_id : `str` or a list of str
             ID of the plot to be panned. If plot_id is a list or tuple, then each plot in the list
             or the tuple is stretched in order.
         stype : {'percent','maxmin','absolute','zscale', 'sigma'}, optional
@@ -889,17 +821,17 @@ class FireflyClient(WebSocketClient):
 
         Parameters
         ----------
-        file_on_server : str, optional
+        file_on_server : `str`, optional
             This is the name of the file on the server.  If you used upload_file()
             then it is the return value of the method. Otherwise it
             is a file that Firefly has direct read access to.
-        region_data: str or list of str, optional
+        region_data: `str` or list of str, optional
             Region description, either a list of strings or a string.
-        title : str, optional
+        title : `str`, optional
             Title of the region layer.
-        region_layer_id : str, optional
+        region_layer_id : `str`, optional
             ID of the layer to be created. It is automatically created if not specified.
-        plot_id : str or a list of str, optional
+        plot_id : `str` or a list of str, optional
             ID of the plot that the region layer is created on.
             If None,  then overlay region(s) on all plots in the same group of the active plot.
 
@@ -938,9 +870,9 @@ class FireflyClient(WebSocketClient):
 
         Parameters
         ----------
-        region_layer_id : str
+        region_layer_id : `str`
             Region layer with the region_layer_id to be removed.
-        plot_id : str or a list of str
+        plot_id : `str` or a list of str
             Plot ID. The region layer is removed from the plot with the plot id.
             If not specified, then remove region layer from all plots in the same group of the active plot.
 
@@ -963,14 +895,14 @@ class FireflyClient(WebSocketClient):
 
         Parameters
         ----------
-        region_data : str or a list of str
+        region_data : `str` or a list of str
             Region entries to be added.
-        region_layer_id : str
+        region_layer_id : `str`
             ID of region layer where the entries are added to.
-        title : str, optional
+        title : `str`, optional
             Title of the region layer. If the layer exists, the original title is replaced.
             If the layer doesn't exist, a new layer with the given title is created.
-        plot_id : str or a list of str, optional
+        plot_id : `str` or a list of str, optional
             Plot ID. This is for the case that the region layer doesn't exist.
             If the region layer exists, this request applies to all plots attached to the layer.
 
@@ -1000,9 +932,9 @@ class FireflyClient(WebSocketClient):
 
         Parameters
         ----------
-        region_data : str or a list of str
+        region_data : `str` or a list of str
             Region entries to be removed.
-        region_layer_id : str
+        region_layer_id : `str`
             ID of the region layer where the region entries are removed from.
 
         Returns
@@ -1026,16 +958,16 @@ class FireflyClient(WebSocketClient):
             Bit number of the mask to overlay.
         image_number : int
             Image number of the mask layer HDU extension in FITS. This is a zero-based index.
-        plot_id : str
+        plot_id : `str`
             ID of the plot to overlay the mask on.
-        mask_id : str, optional
+        mask_id : `str`, optional
             Mask ID. It will be created automatically if not specified.
-        color : str, optional
+        color : `str`, optional
             Color as an html color (eg. #FF0000 (red) #00FF00 (green). A color will be
             created in default if not specified.
-        title : str, optional
+        title : `str`, optional
             Title of the mask layer.
-        file_on_server : str, optional
+        file_on_server : `str`, optional
             File to get the mask from. The mask will be taken from the original file if not specified.
 
         Returns
@@ -1065,9 +997,9 @@ class FireflyClient(WebSocketClient):
 
         Parameters
         ----------
-        plot_id : str
+        plot_id : `str`
             ID of the plot where the mask layer to be removed from.
-        mask_id: str
+        mask_id: `str`
             ID of the mask layer to be removed.
 
         Returns
@@ -1117,7 +1049,7 @@ class FireflyClient(WebSocketClient):
 
         Returns
         -------
-        out : str
+        out : `str`
             a serialized range values string
         """
 
@@ -1146,7 +1078,7 @@ class FireflyClient(WebSocketClient):
 
         Returns
         -------
-        out : str
+        out : `str`
             a serialized range values string
         """
 
@@ -1169,7 +1101,7 @@ class FireflyClient(WebSocketClient):
 
         Returns
         -------
-        out : str
+        out : `str`
             ID string.
         """
 
