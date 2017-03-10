@@ -469,7 +469,7 @@ class FireflyClient(WebSocketClient):
         **additional_params : optional keyword arguments
             Any valid fits viewer plotting parameters,
             see `fits plotting
-            parameters<https://github.com/Caltech-IPAC/firefly/blob/dev/docs/fits-plotting-parameters.md>`_.
+            parameters <https://github.com/Caltech-IPAC/firefly/blob/dev/docs/fits-plotting-parameters.md>`_.
             Also see 'Other Parameters'.
         
         Other Parameters
@@ -576,22 +576,22 @@ class FireflyClient(WebSocketClient):
         tbl_id : `str`, required
             A table ID of the data to be plotted.
         standalone : bool, optional
-            When true, the chart is always present in the chart area, 
+            When true, the chart is always present in the chart area,
             no matter if the related table is present or not
-         **chart_params
-            parameters for XY Plot, please see the details in 'Chart Parameters'.
+        chart_params : keyword arguments
+            parameters for XY Plot, please see the details in 'Other Parameters'.
 
-        Chart Parameters
+        Other Parameters
         ----------------
-        xCol: `str`
+        xCol : `str`
             column or expression to use for x values, can contain multiple column names,
             ex. log(col) or (col1-col2)/col3.
-        xError: `str`
+        xError : `str`
             column or expression to use for x error, can contain multiple column names
-        yCol: `str`
+        yCol : `str`
             column or expression to use for y values, can contain multiple column names,
             ex. sin(col) or (col1-col2)/col3.
-        yError: `str`
+        yError : `str`
             column or expression to use for x error, can contain multiple column names
         xyRatio : numeric types
             Aspect ratio (must be between 1 and 10).
